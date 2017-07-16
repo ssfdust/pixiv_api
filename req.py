@@ -32,6 +32,8 @@ class GetImgUrls(object):
     def get_img_urls(self, img_json):
         if 'illusts' in img_json:
             self.collect_urls(img_json['illusts'])
+        if 'ranking_illusts' in img_json:
+            self.collect_urls(img_json['ranking_illusts'])
         if 'next_url' in img_json:
             if img_json['next_url'] == None:
                 return True
@@ -52,7 +54,8 @@ login_req = requests.Session()
 pic_req = requests.Session()
 headers = {":authority": "i.pximg.net"}
 oauth_url = 'https://oauth.secure.pixiv.net/auth/token'
-img_url = "https://i.pximg.net/c/360x360_70/img-master/img/2016/09/21/17/23/09/59095799_p0_square1200.jpg"
+bookmark_url = 'https://app-api.pixiv.net/v1/user/bookmarks/illust?user_id=#userid#&restrict=public'
+recommend_url = 'https://app-api.pixiv.net/v1/illust/recommended?filter=for_android&include_ranking_illusts=true'
 oauth_headers = {
     'User-Agent': 'PixivAndroidApp/5.0.64 (Android 6.0; Google Pixel C - 6.0.0 - API 23 - 2560x1800',
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -67,7 +70,6 @@ img_headers = {
     'User-Agent': 'PixivAndroidApp/5.0.64 (Android 6.0; Google Pixel C - 6.0.0 - API 23 - 2560x1800',
     'referer': 'https://app-api.pixiv.net/'
 }
-bookmark_url = 'https://app-api.pixiv.net/v1/user/bookmarks/illust?user_id=#userid#&restrict=public'
 login_data = {
     'client_id': 'MOBrBDS8blbauoSck0ZfDbtuzpyT',
     'client_secret': 'lsACyCD94FhDUtGTXi3QzcFE2uU1hqtDaKeqrdwj',
@@ -83,6 +85,8 @@ print('Please enter your login username:')
 login_data['username'] = input()
 print('Please enter your login password:')
 login_data['password'] = input()
+print('what pictures do you want to download?\n1 for bookmarked 2 for recomended')
+want = input()
 
 keyvalue_handle = GetKeyValue()
 login_res = login_req.post(oauth_url, headers=oauth_headers, data=login_data)
@@ -96,7 +100,10 @@ user_id = keyvalue_handle.get_value()
 req_headers['Authorization'] += access_token
 
 #get bookmarked pictures
-pic_res = pic_req.get(bookmark_url.replace('#userid#', user_id), headers=req_headers)
+if want == '1':
+    pic_res = pic_req.get(bookmark_url.replace('#userid#', user_id), headers=req_headers)
+elif want == '2':
+    pic_res = pic_req.get(recommend_url, headers=req_headers)
 pic_res_json = json.loads(pic_res.text)
 img_handler = GetImgUrls()
 
@@ -114,13 +121,13 @@ for i in range(0,2):
 
 img_req = requests.Session()
 img_req.mount('https://i.pximg.net', HTTP20Adapter())
-cont = 0
-for img_url in img_handler.url_list:
+length = len(img_handler.url_list)
+for cont, img_url in enumerate(img_handler.url_list):
     img_res = img_req.get(img_url, headers=img_headers)
-    filename = str(cont) + '.jpg'
+    filename = str(cont + 1) + '.jpg'
+    print('%d/%d' % (cont + 1, length))
     if img_res.status_code == 200:
         with open(filename, 'wb+') as f:
             img_res.raw.decode_content = True
             f.write(img_res.content)
             f.close()
-    cont += 1
