@@ -62,6 +62,8 @@ the network traffic captured from android pixiv app
   | device_token | 设备token，根据request中的device_token而定 |
   | refresh_token | 用于刷新access_token用 |
 
+******************
+
 * 获取推荐内容
   #### 请求地址: https://app-api.pixiv.net/v1/illust/recommended?filter=for_android&include_ranking_illusts=true 请求方式:GET
   
@@ -83,6 +85,8 @@ the network traffic captured from android pixiv app
   | include_ranking_illusts | true |
   
   ##### 图片URL可从返回JSON中获取，返回JSON过长
+   
+******************************
   
 * 获取收藏内容
   #### 请求地址:https://app-api.pixiv.net/v1/user/bookmarks/illust?user_id=<user_id>&restrict=public
@@ -103,6 +107,8 @@ the network traffic captured from android pixiv app
   
   ##### 图片URL可从返回JSON中获取，返回JSON过长
   
+***********************************
+  
   ### 获取图片
   
   * 获取图片的协议是HTTP/2.0 因此HTTP/1.1的响应是403
@@ -115,3 +121,5 @@ the network traffic captured from android pixiv app
   | :authority | i.pximg.net |
   | UA | PixivAndroidApp/5.0.64 (Android 6.0; Google Pixel C - 6.0.0 - API 23 - 2560x1800 | 
   | referer | https://app-api.pixiv.net/ |
+  
+  * 其中:authority是HTTP/2.0的一个伪头
