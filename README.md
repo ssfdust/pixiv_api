@@ -102,3 +102,16 @@ the network traffic captured from android pixiv app
   | restrict | public |
   
   ##### 图片URL可从返回JSON中获取，返回JSON过长
+  
+  ### 获取图片
+  
+  * 获取图片的协议是HTTP/2.0 因此HTTP/1.1的响应是403
+  * 在HTTP/2.0 存在pesudo-header,以":"开头 
+  
+  ##### Header部分：
+
+  | 请求头        | 值           |
+  | ------------- |:-------------:|
+  | :authority | i.pximg.net |
+  | UA | PixivAndroidApp/5.0.64 (Android 6.0; Google Pixel C - 6.0.0 - API 23 - 2560x1800 | 
+  | referer | https://app-api.pixiv.net/ |
