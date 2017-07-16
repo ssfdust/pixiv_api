@@ -118,12 +118,12 @@ the network traffic captured from android pixiv app
   * 获取图片的协议是HTTP/2.0 因此HTTP/1.1的响应是403
   * 在HTTP/2.0 存在pesudo-header,以":"开头 
   
-  ##### Header部分：
+  * Header部分：
 
-  | 请求头        | 值           |
-  | ------------- |:-------------:|
-  | :authority | i.pximg.net |
-  | UA | PixivAndroidApp/5.0.64 (Android 6.0; Google Pixel C - 6.0.0 - API 23 - 2560x1800 | 
-  | referer | https://app-api.pixiv.net/ |
+    | 请求头        | 值           |
+    | ------------- |:-------------:|
+    | :authority | i.pximg.net |
+    | UA | PixivAndroidApp/5.0.64 (Android 6.0; Google Pixel C - 6.0.0 - API 23 - 2560x1800 | 
+    | referer | https://app-api.pixiv.net/ |
   
-  * 其中:authority是HTTP/2.0的一个伪头
+    * 其中:authority是HTTP/2.0的一个伪头
