@@ -6,4 +6,4 @@ hyper==0.7.0
 hyperframe==3.2.0
 idna==2.5
 requests==2.18.1
-urllib3==1.21.1
+urllib3==1.24.2
